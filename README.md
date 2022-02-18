@@ -9,7 +9,7 @@ Just run pixiv-download.py<br>
 <code>py pixiv-download.py</code><br><br>
 If you're English speaker, run en-pixiv-download.py<br>
  <code>py en-pixiv-download.py</code><br><br>
- We'll also provide a exe version for you.
+ We'll also provide a exe version for you. You can get it <a href="https://github.com/ldcivan/pixiv_image_downloader/releases/tag/v1.0">here</a>.
 <h3>About free reverse proxy source</h3>
 It's built by myself. The proxy will run all the time. If it break down, add an issue.<br>
 This proxy is free, but <b>You Should Not Abuse It</b>.
