@@ -1,6 +1,6 @@
 # pixiv_image_downloader
 A Lightweight program to download image on Pixiv by image_ID or Illustrator_ID, providing host which can be used in China at the same time.<br>
-It's originally build by 冷溪凌寒 and develop by me.<br>
+It's originally build by <a href="https://www.cnblogs.com/OoGKoO/p/14582755.html">冷溪凌寒</a> and develop by me.<br>
 <h3>Usage</h3>
 Download Pixiv image by image_id or illustrator_id.<br>
 To make it can be used in China, we provide a free reverse proxy for you.
