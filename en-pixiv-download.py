@@ -51,6 +51,9 @@ def search_source(img):
             #获取键为"regular"的值
             temp = temp.replace('img-master', 'img-original')
             temp = temp.replace('_master1200', '')
+            status = requests.get(temp, timeout=5).status_code
+            if(status==404):
+                temp = temp.replace('.jpg', '.png')
             #改为真实地址
             img.append(temp)
             #添加到图片ID列表
