@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-import requests,os,json
+import requests,re,os,json
 import traceback
 HEADERS={"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"}
 #访问头
@@ -59,6 +59,32 @@ def search_source(img):
             #添加到图片ID列表
             print("加载第%d张图片..."%num)
             num=num+1
+    if len(img) == 0: #如果常规方法没找到链接则切换方法
+        print("未找到图片，可能是因为目标是R-18或私人稿件")
+        print("将使用方法2")
+        urlb = source + "/artworks/" + source_list[i]
+        response = requests.get(urlb, headers=HEADERS)
+        first_target = re.search('"original":"(.+?)"},"tags"', response.text)   #直接到源码中找original
+        temp = first_target.group(1)
+        nPos = temp.index("_p0")
+        if (nPos >= 0):
+            temp_f = temp.split('_p0')[0] + "_p"
+            temp_b = temp.split('_p0')[1]
+            j = 0
+            ifloop = 1
+            while (ifloop == 1):
+                temp = temp_f + str(j) + temp_b
+                status = requests.get(temp, timeout=5).status_code
+                if (status == 404):
+                    ifloop = 0 #判断是否爬取了所有链接，404后则不再继续向后爬取
+                else:
+                    img.append(temp)
+                    # 添加到图片ID列表
+                    print("加载第%s张图片..." %num)
+                    num = num + 1
+                    j = j + 1
+        else:
+            img.append(temp)
     print("一共获取到了%s张图片。"%len(img))
     #time.sleep(1)
 
@@ -132,6 +158,8 @@ while(loop==''):
         download(file_name, img_list)
     #输入作者/作品ID
     traceback.print_exc()
+    if img_list == []:
+        print("依旧未找到图片，可能是因为目标是私人稿件")
     print("如程序出错，请附上日志与我们联系。否则，请无视输出的日志。")
     print('------------------------------------------------------------------------------')
     loop == input("回车以继续下载...")

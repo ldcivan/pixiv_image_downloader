@@ -52,13 +52,39 @@ def search_source(img):
             temp = temp.replace('img-master', 'img-original')
             temp = temp.replace('_master1200', '')
             status = requests.get(temp, timeout=5).status_code
-            if(status==404):
+            if (status == 404):
                 temp = temp.replace('.jpg', '.png')
             #改为真实地址
             img.append(temp)
             #添加到图片ID列表
-            print("加载第%d张图片..."%num)
+            print("Loading the %d image..."%num)
             num=num+1
+    if len(img) == 0: #如果常规方法没找到链接则切换方法
+        print("Can't find image, probably because target is a R-18 or private artwork")
+        print("Use method 2...")
+        urlb = source + "/artworks/" + source_list[i]
+        response = requests.get(urlb, headers=HEADERS)
+        first_target = re.search('"original":"(.+?)"},"tags"', response.text)   #直接到源码中找original
+        temp = first_target.group(1)
+        nPos = temp.index("_p0")
+        if (nPos >= 0):
+            temp_f = temp.split('_p0')[0] + "_p"
+            temp_b = temp.split('_p0')[1]
+            j = 0
+            ifloop = 1
+            while (ifloop == 1):
+                temp = temp_f + str(j) + temp_b
+                status = requests.get(temp, timeout=5).status_code
+                if (status == 404):
+                    ifloop = 0 #判断是否爬取了所有链接，404后则不再继续向后爬取
+                else:
+                    img.append(temp)
+                    # 添加到图片ID列表
+                    print("Loading the %d image..." %num)
+                    num = num + 1
+                    j = j + 1
+        else:
+            img.append(temp)
     print("A total of %s images were found"%len(img))
     #time.sleep(1)
 
@@ -132,6 +158,8 @@ while(loop==''):
         download(file_name, img_list)
     #输入作者/作品ID
     traceback.print_exc()
+    if img_list == []:
+        print("Can't find image anyway, probably because target is a private artwork")
     print("If program shut down, contact us with error log. Or Ignore the log.")
     print('------------------------------------------------------------------------------')
     loop == input("Press Enter to download other images...")
