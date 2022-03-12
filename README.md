@@ -13,3 +13,6 @@ If you're English speaker, run en-pixiv-download.py<br>
 <h3>About free reverse proxy source</h3>
 It's built by myself. The proxy will run all the time. If it break down, <a href="https://github.com/ldcivan/pixiv_image_downloader/issues/new">add a new issue</a>.<br>
 This proxy is free, but <b>You Should Not Abuse It</b>.
+<h3>About us</h3>
+We're a group of tech-otaku from CN. You can ckick <a href="http://pro-ivan.cn/page2.html">here</a> to know more.<br>
+The program will be updated from time to time for a more stable experience. You can give us a star for a timely update.
